@@ -2,8 +2,10 @@
 
 namespace Modules\Catalog\Providers;
 
+use Livewire\Livewire;
+use Modules\Catalog\Services\CatalogProductService;
+use Modules\Shared\Contracts\ProductCatalog;
 use Nwidart\Modules\Support\ModuleServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 
 class CatalogServiceProvider extends ModuleServiceProvider
 {
@@ -33,6 +35,30 @@ class CatalogServiceProvider extends ModuleServiceProvider
         EventServiceProvider::class,
         RouteServiceProvider::class,
     ];
+
+    public function register(): void
+    {
+        parent::register();
+
+        // Bind the cross-module contract to Catalog's implementation. Other
+        // modules resolve ProductCatalog from the container and receive this
+        // service without depending on the Catalog module at compile time.
+        $this->app->bind(ProductCatalog::class, CatalogProductService::class);
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        // Register the module's Livewire namespace so any component under
+        // Modules\Catalog\Livewire resolves as <livewire:catalog::name /> — e.g.
+        // catalog::product-browser => Modules\Catalog\Livewire\ProductBrowser.
+        Livewire::addNamespace(
+            'catalog',
+            classNamespace: 'Modules\\Catalog\\Livewire',
+            viewPath: module_path('Catalog', 'resources/views/livewire'),
+        );
+    }
 
     /**
      * Define module schedules.

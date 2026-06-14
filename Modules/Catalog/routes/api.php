@@ -1,8 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Modules\Catalog\Http\Controllers\CatalogController;
-
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('catalogs', CatalogController::class)->names('catalog');
-});
+/*
+|--------------------------------------------------------------------------
+| Catalog API routes
+|--------------------------------------------------------------------------
+|
+| This module intentionally exposes no HTTP API. Other modules communicate
+| with the catalog through the in-process ProductCatalog contract rather than
+| over HTTP, which keeps the module boundary explicit and strongly typed.
+|
+*/

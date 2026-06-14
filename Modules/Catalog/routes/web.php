@@ -1,8 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Catalog\Http\Controllers\CatalogController;
+use Modules\Catalog\Livewire\ProductBrowser;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('catalogs', CatalogController::class)->names('catalog');
-});
+/*
+|--------------------------------------------------------------------------
+| Catalog web routes
+|--------------------------------------------------------------------------
+|
+| Public storefront browsing, rendered by a full-page Livewire component.
+|
+*/
+
+Route::get('/catalog', ProductBrowser::class)->name('catalog.browse');
