@@ -2,8 +2,8 @@
 
 namespace Modules\Order\Providers;
 
+use Livewire\Livewire;
 use Nwidart\Modules\Support\ModuleServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 
 class OrderServiceProvider extends ModuleServiceProvider
 {
@@ -18,13 +18,6 @@ class OrderServiceProvider extends ModuleServiceProvider
     protected string $nameLower = 'order';
 
     /**
-     * Command classes to register.
-     *
-     * @var string[]
-     */
-    // protected array $commands = [];
-
-    /**
      * Provider classes to register.
      *
      * @var string[]
@@ -34,13 +27,17 @@ class OrderServiceProvider extends ModuleServiceProvider
         RouteServiceProvider::class,
     ];
 
-    /**
-     * Define module schedules.
-     * 
-     * @param $schedule
-     */
-    // protected function configureSchedules(Schedule $schedule): void
-    // {
-    //     $schedule->command('inspire')->hourly();
-    // }
+    public function boot(): void
+    {
+        parent::boot();
+
+        // Register the module's Livewire namespace so storefront components
+        // resolve as <livewire:order::name /> — e.g. order::create-order maps
+        // to Modules\Order\Livewire\CreateOrder.
+        Livewire::addNamespace(
+            'order',
+            classNamespace: 'Modules\\Order\\Livewire',
+            viewPath: module_path('Order', 'resources/views/livewire'),
+        );
+    }
 }

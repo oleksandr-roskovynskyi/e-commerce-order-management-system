@@ -1,8 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Order\Http\Controllers\OrderController;
+use Modules\Order\Livewire\CreateOrder;
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('orders', OrderController::class)->names('order');
-});
+/*
+|--------------------------------------------------------------------------
+| Order web routes
+|--------------------------------------------------------------------------
+|
+| Public storefront order creation, rendered by a full-page Livewire component.
+|
+*/
+
+Route::get('/orders/create', CreateOrder::class)->name('orders.create');

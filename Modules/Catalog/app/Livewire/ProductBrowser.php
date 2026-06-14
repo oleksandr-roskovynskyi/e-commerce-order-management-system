@@ -19,7 +19,7 @@ use Modules\Catalog\Models\Product;
  * the cross-module ProductCatalog contract exists for *other* modules, not for
  * Catalog's own views.
  */
-#[Layout('catalog::layouts.storefront')]
+#[Layout('layouts.storefront')]
 class ProductBrowser extends Component
 {
     use WithPagination;

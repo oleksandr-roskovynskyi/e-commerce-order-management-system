@@ -2,9 +2,12 @@
 
 namespace Modules\Catalog\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
+use Modules\Catalog\Listeners\RecordProductSales;
 use Modules\Catalog\Services\CatalogProductService;
 use Modules\Shared\Contracts\ProductCatalog;
+use Modules\Shared\Events\OrderPlaced;
 use Nwidart\Modules\Support\ModuleServiceProvider;
 
 class CatalogServiceProvider extends ModuleServiceProvider
@@ -58,6 +61,10 @@ class CatalogServiceProvider extends ModuleServiceProvider
             classNamespace: 'Modules\\Catalog\\Livewire',
             viewPath: module_path('Catalog', 'resources/views/livewire'),
         );
+
+        // React to orders placed in the Order module purely through the Shared
+        // domain event — Catalog never references the Order module directly.
+        Event::listen(OrderPlaced::class, RecordProductSales::class);
     }
 
     /**
