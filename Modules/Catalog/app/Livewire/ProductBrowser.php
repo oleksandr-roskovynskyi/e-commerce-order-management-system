@@ -60,7 +60,7 @@ class ProductBrowser extends Component
             ->available()
             ->with('category')
             ->when($this->categoryId, fn (Builder $query): Builder => $query->where('category_id', $this->categoryId))
-            ->when($this->search !== '', fn (Builder $query): Builder => $query->where('name', 'ilike', '%'.$this->search.'%'))
+            ->when($this->search !== '', fn (Builder $query): Builder => $query->where('name', 'ilike', '%' . $this->search . '%'))
             ->orderBy('name')
             ->paginate(12);
 

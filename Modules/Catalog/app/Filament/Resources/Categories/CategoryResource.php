@@ -2,7 +2,6 @@
 
 namespace Modules\Catalog\Filament\Resources\Categories;
 
-use Modules\Catalog\Filament\Resources\Categories\Pages\ManageCategories;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -14,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Modules\Catalog\Filament\Resources\Categories\Pages\ManageCategories;
 use Modules\Catalog\Models\Category;
 
 class CategoryResource extends Resource

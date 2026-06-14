@@ -2,9 +2,9 @@
 
 namespace Modules\Catalog\Filament\Resources\Categories\Pages;
 
-use Modules\Catalog\Filament\Resources\Categories\CategoryResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
+use Modules\Catalog\Filament\Resources\Categories\CategoryResource;
 
 class ManageCategories extends ManageRecords
 {

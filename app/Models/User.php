@@ -20,6 +20,17 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable;
 
     /**
+     * Determine whether the user may access the given Filament panel.
+     *
+     * The demo seeds dedicated staff accounts; in production this is where a
+     * role/permission check (e.g. a "staff" role) would be enforced.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -30,16 +41,5 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * Determine whether the user may access the given Filament panel.
-     *
-     * The demo seeds dedicated staff accounts; in production this is where a
-     * role/permission check (e.g. a "staff" role) would be enforced.
-     */
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
     }
 }

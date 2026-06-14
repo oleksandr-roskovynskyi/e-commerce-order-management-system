@@ -8,6 +8,7 @@ use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\Order;
 use Modules\Shared\Contracts\ProductCatalog;
 use Modules\Shared\Events\OrderPlaced;
+use Modules\Shared\Exceptions\InsufficientStockException;
 use Modules\Shared\Exceptions\ProductNotFoundException;
 use Modules\Shared\ValueObjects\Money;
 
@@ -29,8 +30,8 @@ class CreateOrderAction
      * @param  array<int, array{product_id: int|string, quantity: int|string}>  $lines
      *
      * @throws ProductNotFoundException
-     * @throws \Modules\Shared\Exceptions\InsufficientStockException
-     * @throws InvalidArgumentException  when no valid line items are supplied
+     * @throws InsufficientStockException
+     * @throws InvalidArgumentException when no valid line items are supplied
      */
     public function execute(string $customerName, string $customerEmail, array $lines): Order
     {

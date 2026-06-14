@@ -22,7 +22,7 @@ class ProductFactory extends Factory
         return [
             'category_id' => Category::factory(),
             'name' => Str::title(fake()->words(3, true)),
-            'sku' => 'SKU-'.fake()->unique()->numerify('#####'),
+            'sku' => 'SKU-' . fake()->unique()->numerify('#####'),
             'description' => fake()->sentence(12),
             // Raw minor units (cents): $5.00 – $500.00
             'price' => fake()->numberBetween(500, 50_000),

@@ -2,16 +2,16 @@
 
 namespace Modules\Catalog\Filament\Resources\Products;
 
-use Modules\Catalog\Filament\Resources\Products\Pages\CreateProduct;
-use Modules\Catalog\Filament\Resources\Products\Pages\EditProduct;
-use Modules\Catalog\Filament\Resources\Products\Pages\ListProducts;
-use Modules\Catalog\Filament\Resources\Products\Schemas\ProductForm;
-use Modules\Catalog\Filament\Resources\Products\Tables\ProductsTable;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Catalog\Filament\Resources\Products\Pages\CreateProduct;
+use Modules\Catalog\Filament\Resources\Products\Pages\EditProduct;
+use Modules\Catalog\Filament\Resources\Products\Pages\ListProducts;
+use Modules\Catalog\Filament\Resources\Products\Schemas\ProductForm;
+use Modules\Catalog\Filament\Resources\Products\Tables\ProductsTable;
 use Modules\Catalog\Models\Product;
 
 class ProductResource extends Resource

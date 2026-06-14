@@ -82,7 +82,7 @@ class CatalogProductService implements ProductCatalog
             description: $product->description,
             price: $product->price,
             stockQuantity: $product->stock_quantity,
-            category: $product->category?->name,
+            category: $product->category->name,
         );
     }
 }

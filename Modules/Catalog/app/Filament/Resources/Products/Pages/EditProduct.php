@@ -2,6 +2,7 @@
 
 namespace Modules\Catalog\Filament\Resources\Products\Pages;
 
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Modules\Catalog\Filament\Resources\Products\ProductResource;
@@ -12,7 +13,7 @@ class EditProduct extends EditRecord
     protected static string $resource = ProductResource::class;
 
     /**
-     * @return array<\Filament\Actions\Action>
+     * @return array<Action>
      */
     protected function getHeaderActions(): array
     {

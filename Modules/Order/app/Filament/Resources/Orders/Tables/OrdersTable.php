@@ -66,7 +66,7 @@ class OrdersTable
         return Action::make('advance')
             ->label(fn (Order $record): string => $record->status->isFinal()
                 ? 'Completed'
-                : 'Advance to '.$record->status->allowedTransitions()[0]->label())
+                : 'Advance to ' . $record->status->allowedTransitions()[0]->label())
             ->icon('heroicon-o-arrow-right-circle')
             ->color('primary')
             ->visible(fn (Order $record): bool => ! $record->status->isFinal())

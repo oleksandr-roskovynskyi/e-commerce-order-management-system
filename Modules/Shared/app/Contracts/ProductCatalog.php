@@ -46,8 +46,8 @@ interface ProductCatalog
     /**
      * Atomically decrement a product's stock by the given quantity.
      *
-     * @throws ProductNotFoundException     when the product does not exist
-     * @throws InsufficientStockException   when not enough stock is available
+     * @throws ProductNotFoundException when the product does not exist
+     * @throws InsufficientStockException when not enough stock is available
      */
     public function decrementStock(int $productId, int $quantity): void;
 }

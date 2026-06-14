@@ -37,6 +37,14 @@ final readonly class Money
         return new self((int) round((float) $amount * 100), $currency);
     }
 
+    /**
+     * Zero amount, useful as the identity element when summing line totals.
+     */
+    public static function zero(string $currency = 'USD'): self
+    {
+        return new self(0, $currency);
+    }
+
     public function cents(): int
     {
         return $this->cents;
@@ -76,25 +84,17 @@ final readonly class Money
         return $this->cents === $other->cents && $this->currency === $other->currency;
     }
 
-    /**
-     * Zero amount, useful as the identity element when summing line totals.
-     */
-    public static function zero(string $currency = 'USD'): self
-    {
-        return new self(0, $currency);
-    }
-
     public function format(): string
     {
         $major = intdiv($this->cents, 100);
         $minor = str_pad((string) ($this->cents % 100), 2, '0', STR_PAD_LEFT);
-        $amount = number_format($major).'.'.$minor;
+        $amount = number_format($major) . '.' . $minor;
 
         return match ($this->currency) {
-            'USD' => '$'.$amount,
-            'EUR' => '€'.$amount,
-            'GBP' => '£'.$amount,
-            default => $amount.' '.$this->currency,
+            'USD' => '$' . $amount,
+            'EUR' => '€' . $amount,
+            'GBP' => '£' . $amount,
+            default => $amount . ' ' . $this->currency,
         };
     }
 

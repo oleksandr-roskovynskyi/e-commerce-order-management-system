@@ -40,8 +40,8 @@ class CatalogDatabaseSeeder extends Seeder
                 Product::query()->create([
                     'category_id' => $category->id,
                     'name' => $name,
-                    'sku' => 'SKU-'.(++$sku),
-                    'description' => $name.' — a quality '.strtolower($categoryName).' product.',
+                    'sku' => 'SKU-' . (++$sku),
+                    'description' => $name . ' — a quality ' . strtolower($categoryName) . ' product.',
                     'price' => $price,
                     'stock_quantity' => $stock,
                     'is_active' => $active,

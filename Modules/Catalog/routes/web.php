@@ -12,4 +12,4 @@ use Modules\Catalog\Livewire\ProductBrowser;
 |
 */
 
-Route::get('/catalog', ProductBrowser::class)->name('catalog.browse');
+Route::get('catalog', ProductBrowser::class)->name('catalog.browse');
