@@ -1,0 +1,20 @@
+{
+    "name": "modules/shared",
+    "description": "Shared domain kernel: cross-module contracts, value objects, DTOs and events.",
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Shared\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Shared\\Tests\\": "tests/"
+        }
+    }
+}

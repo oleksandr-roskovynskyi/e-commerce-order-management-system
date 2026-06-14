@@ -18,16 +18,18 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Nwidart\Modules\Facades\Module;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
+        $panel = $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Order Management')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -55,5 +57,31 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+
+        $this->discoverModuleResources($panel);
+
+        return $panel;
+    }
+
+    /**
+     * Auto-discover Filament resources and pages exposed by every enabled
+     * module (Modules/<Name>/app/Filament/...). Adding a new module therefore
+     * requires no change to this panel — its admin UI is picked up automatically.
+     */
+    protected function discoverModuleResources(Panel $panel): void
+    {
+        foreach (Module::allEnabled() as $module) {
+            $name = $module->getName();
+
+            $resources = base_path("Modules/{$name}/app/Filament/Resources");
+            if (is_dir($resources)) {
+                $panel->discoverResources(in: $resources, for: "Modules\\{$name}\\Filament\\Resources");
+            }
+
+            $pages = base_path("Modules/{$name}/app/Filament/Pages");
+            if (is_dir($pages)) {
+                $panel->discoverPages(in: $pages, for: "Modules\\{$name}\\Filament\\Pages");
+            }
+        }
     }
 }
