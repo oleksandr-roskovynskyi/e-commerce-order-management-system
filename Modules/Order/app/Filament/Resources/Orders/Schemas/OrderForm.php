@@ -37,7 +37,9 @@ class OrderForm
                     ->prefix('$')
                     ->disabled()
                     ->dehydrated(false)
-                    ->formatStateUsing(fn (?Money $state): ?float => $state?->toMajorUnits()),
+                    ->afterStateHydrated(function (TextInput $component, mixed $state): void {
+                        $component->state($state instanceof Money ? $state->toMajorUnits() : $state);
+                    }),
                 DateTimePicker::make('placed_at')
                     ->disabled()
                     ->dehydrated(false),

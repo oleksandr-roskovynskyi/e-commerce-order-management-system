@@ -1,16 +1,22 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
-| Test Case
+| Test Case & database
 |--------------------------------------------------------------------------
 |
-| Bind the application's base TestCase to the feature tests. Module feature
-| tests (Modules/<Name>/tests/Feature) and the RefreshDatabase trait are
-| wired up once the modules exist — see the additional bindings below.
+| Feature tests — both the application's own and each module's
+| (Modules/<Name>/tests/Feature) — boot the full framework and run against a
+| fresh database. Module unit tests (e.g. the Money value object) stay as plain,
+| framework-free Pest tests for speed.
 |
 */
 
-pest()->extend(TestCase::class)->in('Feature');
+uses(TestCase::class, RefreshDatabase::class)->in(
+    'Feature',
+    __DIR__.'/../Modules/Catalog/tests/Feature',
+    __DIR__.'/../Modules/Order/tests/Feature',
+);
