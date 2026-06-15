@@ -1,0 +1,15 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+
+    # Analyse against the PHP version the app runs on (PHP 8.5, as in Docker).
+    phpVersion: 80500
+
+    paths:
+        - app
+        - Modules
+
+    excludePaths:
+        - Modules/*/tests/*
