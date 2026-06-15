@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Models\User;
 use Livewire\Livewire;
 use Modules\Order\Enums\OrderStatus;
+use Modules\Order\Filament\Resources\Orders\Pages\EditOrder;
 use Modules\Order\Filament\Resources\Orders\Pages\ListOrders;
 use Modules\Order\Models\Order;
 
@@ -33,6 +34,23 @@ it('hides the advance action once an order is delivered', function () {
 
     Livewire::test(ListOrders::class)
         ->assertTableActionHidden('advance', $order);
+});
+
+it('advances the status one step from the edit page', function () {
+    $order = Order::factory()->status(OrderStatus::Confirmed)->create();
+
+    Livewire::test(EditOrder::class, ['record' => $order->getRouteKey()])
+        ->callAction('advance')
+        ->assertHasNoErrors();
+
+    expect($order->fresh()->status)->toBe(OrderStatus::Shipped);
+});
+
+it('hides the advance action on the edit page once delivered', function () {
+    $order = Order::factory()->status(OrderStatus::Delivered)->create();
+
+    Livewire::test(EditOrder::class, ['record' => $order->getRouteKey()])
+        ->assertActionHidden('advance');
 });
 
 it('can filter orders by status', function () {

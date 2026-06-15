@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Order\Filament\Resources\Orders\Tables;
 
-use Filament\Actions\Action;
 use Filament\Actions\EditAction;
-use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Modules\Order\Enums\OrderStatus;
-use Modules\Order\Models\Order;
+use Modules\Order\Filament\Resources\Orders\Actions\AdvanceOrderStatusAction;
 use Modules\Shared\ValueObjects\Money;
 
 class OrdersTable
@@ -52,40 +50,9 @@ class OrdersTable
                         ->all()),
             ])
             ->recordActions([
-                self::advanceStatusAction(),
+                AdvanceOrderStatusAction::make(),
                 EditAction::make(),
             ])
             ->defaultSort('id', 'desc');
-    }
-
-    /**
-     * A single-button, guarded "advance to next status" action. Because the
-     * workflow is strictly linear, each non-final status has exactly one valid
-     * next status, which {@see OrderStatus::canTransitionTo()} enforces.
-     */
-    private static function advanceStatusAction(): Action
-    {
-        return Action::make('advance')
-            ->label(fn (Order $record): string => $record->status->isFinal()
-                ? 'Completed'
-                : 'Advance to ' . $record->status->allowedTransitions()[0]->label())
-            ->icon('heroicon-o-arrow-right-circle')
-            ->color('primary')
-            ->visible(fn (Order $record): bool => ! $record->status->isFinal())
-            ->requiresConfirmation()
-            ->action(function (Order $record): void {
-                $next = $record->status->allowedTransitions()[0];
-
-                if (! $record->status->canTransitionTo($next)) {
-                    return;
-                }
-
-                $record->update(['status' => $next]);
-
-                Notification::make()
-                    ->title("Order #{$record->id} is now {$next->label()}")
-                    ->success()
-                    ->send();
-            });
     }
 }
