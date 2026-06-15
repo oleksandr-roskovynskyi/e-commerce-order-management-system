@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,6 +19,6 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class)->in(
     'Feature',
-    __DIR__.'/../Modules/Catalog/tests/Feature',
-    __DIR__.'/../Modules/Order/tests/Feature',
+    __DIR__ . '/../Modules/Catalog/tests/Feature',
+    __DIR__ . '/../Modules/Order/tests/Feature',
 );
