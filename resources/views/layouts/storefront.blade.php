@@ -19,6 +19,9 @@
                 @if (Route::has('orders.create'))
                     <a href="{{ route('orders.create') }}" class="hover:text-gray-900">New order</a>
                 @endif
+                @if (Route::has('orders.track'))
+                    <a href="{{ route('orders.track') }}" class="hover:text-gray-900">Track order</a>
+                @endif
                 <a href="/admin" class="hover:text-gray-900">Admin</a>
             </nav>
         </div>

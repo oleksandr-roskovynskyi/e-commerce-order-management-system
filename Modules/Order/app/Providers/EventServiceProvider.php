@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Order\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -7,21 +9,15 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if events should be discovered.
+     * Event discovery only ever scans the main app's Listeners directory, so it
+     * is disabled here; this module registers no listeners of its own.
      *
      * @var bool
      */
-    protected static $shouldDiscoverEvents = true;
+    protected static $shouldDiscoverEvents = false;
 
     /**
-     * The event handler mappings for the application.
-     *
-     * @var array<string, array<int, string>>
+     * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [];
-
-    /**
-     * Configure the proper event listeners for email verification.
-     */
-    protected function configureEmailVerification(): void {}
 }

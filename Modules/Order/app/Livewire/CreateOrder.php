@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Order\Livewire;
 
 use Illuminate\Contracts\View\View;
@@ -35,6 +37,12 @@ class CreateOrder extends Component
     public array $cart = [];
 
     public ?int $placedOrderId = null;
+
+    /**
+     * The email the placed order was made with, kept so the confirmation screen
+     * can deep-link into order tracking once the form has been reset.
+     */
+    public ?string $placedOrderEmail = null;
 
     public function addToCart(int $productId): void
     {
@@ -94,6 +102,7 @@ class CreateOrder extends Component
         }
 
         $this->placedOrderId = $order->id;
+        $this->placedOrderEmail = $this->customerEmail;
         $this->reset(['cart', 'customerName', 'customerEmail']);
     }
 

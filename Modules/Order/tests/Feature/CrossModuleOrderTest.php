@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\Event;
 use Modules\Catalog\Models\Product;
 use Modules\Catalog\Services\CatalogProductService;
 use Modules\Order\Actions\CreateOrderAction;
 use Modules\Order\Models\Order;
 use Modules\Shared\Contracts\ProductCatalog;
+use Modules\Shared\Events\OrderPlaced;
 use Modules\Shared\Exceptions\InsufficientStockException;
 
 it('resolves the ProductCatalog contract to the catalog implementation', function () {
@@ -38,4 +42,33 @@ it('rolls back the entire order when any line has insufficient stock', function 
     expect(Order::query()->count())->toBe(0)
         ->and($plenty->fresh()->stock_quantity)->toBe(10)
         ->and($scarce->fresh()->stock_quantity)->toBe(1);
+});
+
+it('dispatches OrderPlaced once the order is committed', function () {
+    Event::fake([OrderPlaced::class]);
+
+    $product = Product::factory()->create(['stock_quantity' => 5]);
+
+    app(CreateOrderAction::class)->execute('Sam Carter', 'sam@example.com', [
+        ['product_id' => $product->id, 'quantity' => 2],
+    ]);
+
+    Event::assertDispatched(
+        OrderPlaced::class,
+        fn (OrderPlaced $event): bool => $event->lines === [['product_id' => $product->id, 'quantity' => 2]],
+    );
+});
+
+it('does not dispatch OrderPlaced when the order rolls back', function () {
+    Event::fake([OrderPlaced::class]);
+
+    $scarce = Product::factory()->create(['stock_quantity' => 1]);
+
+    $place = fn () => app(CreateOrderAction::class)->execute('Sam Carter', 'sam@example.com', [
+        ['product_id' => $scarce->id, 'quantity' => 5], // exceeds stock
+    ]);
+
+    expect($place)->toThrow(InsufficientStockException::class);
+
+    Event::assertNotDispatched(OrderPlaced::class);
 });

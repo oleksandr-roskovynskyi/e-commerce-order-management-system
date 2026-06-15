@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Modules\Order\Enums\OrderStatus;
 
 it('allows only forward, single-step transitions', function () {

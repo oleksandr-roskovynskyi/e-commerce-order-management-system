@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Modules\Shared\ValueObjects\Money;
 
 it('builds from major units without floating point errors', function () {

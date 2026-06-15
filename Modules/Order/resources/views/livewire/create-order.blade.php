@@ -5,12 +5,24 @@
             <p class="mt-2 text-green-700">
                 Your order <span class="font-semibold">#{{ $placedOrderId }}</span> has been placed.
             </p>
-            <button
-                wire:click="startNewOrder"
-                class="mt-6 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-700"
-            >
-                Place another order
-            </button>
+            <p class="mt-1 text-sm text-green-700">
+                Current status:
+                <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800">Pending</span>
+            </p>
+            <div class="mt-6 flex items-center justify-center gap-3">
+                <a
+                    href="{{ route('orders.track', ['orderNumber' => $placedOrderId, 'email' => $placedOrderEmail]) }}"
+                    class="rounded-lg border border-gray-300 px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                    Track your order
+                </a>
+                <button
+                    wire:click="startNewOrder"
+                    class="rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-700"
+                >
+                    Place another order
+                </button>
+            </div>
         </div>
     @else
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Order\Actions;
 
 use Illuminate\Support\Facades\DB;
@@ -35,7 +37,8 @@ class CreateOrderAction
      */
     public function execute(string $customerName, string $customerEmail, array $lines): Order
     {
-        return DB::transaction(function () use ($customerName, $customerEmail, $lines): Order {
+        /** @var array{0: Order, 1: list<array{product_id: int, quantity: int}>} $result */
+        $result = DB::transaction(function () use ($customerName, $customerEmail, $lines): array {
             $order = Order::create([
                 'customer_name' => $customerName,
                 'customer_email' => $customerEmail,
@@ -88,9 +91,16 @@ class CreateOrderAction
 
             $order->update(['total' => $total]);
 
-            OrderPlaced::dispatch($order->id, $eventLines);
-
-            return $order->load('items');
+            return [$order, $eventLines];
         });
+
+        [$order, $eventLines] = $result;
+
+        // Dispatch only after the surrounding transaction has committed, so any
+        // listener always observes fully persisted state — and nothing fires
+        // when the order rolled back (the closure would have thrown instead).
+        OrderPlaced::dispatch($order->id, $eventLines);
+
+        return $order->load('items');
     }
 }

@@ -10,7 +10,7 @@ Shared kernel.
 
 | Concern | Choice |
 | --- | --- |
-| Framework | Laravel 13 (PHP 8.3+) |
+| Framework | Laravel 13 (PHP 8.5) |
 | Modules | `nwidart/laravel-modules` 13 |
 | Admin UI | Filament 5 |
 | Interactive frontend | Livewire 4 |
@@ -118,7 +118,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/php84-composer:latest \
+    laravelsail/php85-composer:latest \
     composer install --ignore-platform-reqs
 
 # 4. Start the containers (app + PostgreSQL)
@@ -134,6 +134,10 @@ docker run --rm \
 > Tip: add a shell alias `alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'`
 > so you can type `sail …` instead of `./vendor/bin/sail …`.
 
+> Shortcut: a [`Makefile`](Makefile) wraps the common tasks — run `make help` to
+> list them. For a fresh clone, `make init` performs the whole bootstrap above in
+> one step; day to day you'll use `make up`, `make test`, `make quality`, etc.
+
 ---
 
 ## Running the application
@@ -144,14 +148,18 @@ With `sail up -d` running, the app is served at **http://localhost**.
 | --- | --- | --- |
 | Storefront (browse) | http://localhost/catalog | Public Livewire product browser |
 | Storefront (order) | http://localhost/orders/create | Public Livewire order creation |
+| Storefront (track) | http://localhost/orders/track | Public Livewire order status lookup (order # + email) |
 | Admin panel | http://localhost/admin | Filament |
+
+> `/` redirects to the catalog storefront.
 
 **Admin login** (seeded): `admin@example.com` / `password`
 
 ### Try the main flow
 
 1. Visit `/orders/create`, add a few products to the cart, enter customer
-   details and place the order.
+   details and place the order. The confirmation links to **Track your order**
+   (`/orders/track`), which shows the order's status workflow and line items.
 2. Open `/admin` → **Orders** and confirm the new order appears with its line
    items and a `pending` status. Use **Advance to …** to move it through the
    workflow.

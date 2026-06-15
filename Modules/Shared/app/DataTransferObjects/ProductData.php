@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Shared\DataTransferObjects;
 
 use Modules\Shared\ValueObjects\Money;
@@ -22,9 +24,4 @@ final readonly class ProductData
         public int $stockQuantity,
         public ?string $category = null,
     ) {}
-
-    public function isInStock(int $quantity = 1): bool
-    {
-        return $this->stockQuantity >= $quantity;
-    }
 }

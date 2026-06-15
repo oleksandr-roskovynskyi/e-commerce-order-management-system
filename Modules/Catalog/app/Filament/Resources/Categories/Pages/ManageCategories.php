@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Catalog\Filament\Resources\Categories\Pages;
 
 use Filament\Actions\CreateAction;

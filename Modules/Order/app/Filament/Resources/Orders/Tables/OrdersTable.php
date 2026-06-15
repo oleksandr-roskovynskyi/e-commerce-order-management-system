@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Order\Filament\Resources\Orders\Tables;
 
 use Filament\Actions\Action;

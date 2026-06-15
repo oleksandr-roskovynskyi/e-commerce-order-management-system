@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Livewire\Livewire;
 use Modules\Catalog\Models\Product;
 use Modules\Order\Enums\OrderStatus;
